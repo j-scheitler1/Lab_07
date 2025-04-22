@@ -34,7 +34,7 @@ public class CalculatorController implements ActionListener {
 		else if (command.equals("^2") || command.equals("√")) {
 			singleOperationSelected(command);
 		}
-		else if (command.equals("M+") || command.equals("M-")) { 
+		else if (command.equals("M+") || command.equals("M-")) {
 			operationSelected(command);
 		}
 		else if (command.equals("CM")) {
@@ -58,22 +58,26 @@ public class CalculatorController implements ActionListener {
 	
 	// set the operation, first number, and clear display
 	public void operationSelected(String command) {
-		System.out.print("Op Flag: " + model.getOpFlag());
+		System.out.println("Comand: " + command);
+		System.out.println("Op Flag: " + model.getOpFlag());
 		if (model.opFlag == true) { return; }// TODO - THROW ERROR
 		if (command.equals("M+") || command.equals("M-")) {
+			System.out.print("WE IN HER");
 			model.setFirst(model.getMemoryNum());
+			model.setOpFlag(true);
+			clearScreen();
+			displayCurrent();
 		} else {
 			model.setFirst(Double.parseDouble(current.toString()));
+			model.setOperation(command);
+			model.setOpFlag(true);
+			clearScreen();
+			displayCurrent();
 		}
-		model.setOperation(command);
-		model.setOpFlag(true);
-		clearScreen();
-		displayCurrent();
 	}
 	public void singleOperationSelected(String command) {
 		model.setOperation(command);
 		model.setFirst(Double.parseDouble(current.toString()));
-		model.setOpFlag(false);
 		clearScreen();
 		
 		double ans = model.parser();
@@ -81,6 +85,7 @@ public class CalculatorController implements ActionListener {
 		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
 		
+		model.setOpFlag(false);
 		model.setAnsFlag(true);
 	}
 	public void equalSelected() {
@@ -92,7 +97,8 @@ public class CalculatorController implements ActionListener {
 		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
 		
-		model.ansFlag = true;
+		model.setAnsFlag(true);
+		model.setOpFlag(false);
 	}
 	public void appendCommand(String command) {
 		System.out.println(model.getAnsFlag());
