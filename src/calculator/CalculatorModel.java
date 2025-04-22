@@ -7,9 +7,40 @@ package calculator;
 public class CalculatorModel {
 	
 	double memoryNumber;
+	double first;
+	double second;
+	String operation;
+	Boolean opFlag;
+	Boolean decFlag;
 	
 	public CalculatorModel() {
+		this.first = 0.0;
+		this.second = 0.0;
 		this.memoryNumber = 0.0;
+		this.operation = "";
+		this.opFlag = false;
+		this.decFlag = false;
+		
+	}
+	
+	public double parser() {
+		
+		System.out.println("First " + first);
+		System.out.println("Second " + second);
+		System.out.println("Operation " + operation);
+		
+		switch(this.operation) {
+			case "+":
+				return addition(first, second);
+			case "-":
+				return subtraction(first, second);
+			case "x":
+				return multiplication(first, second);
+			case "/":
+				return division(first, second);
+		}
+		
+		return -1;
 	}
 	
 	public double addition (double addends_a, double addends_b) {

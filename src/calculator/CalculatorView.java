@@ -165,8 +165,6 @@ public class CalculatorView implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void setActionListeners(ActionListener controller) {

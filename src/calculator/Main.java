@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 		model = new CalculatorModel();
 		view = new CalculatorView();
-		view.setActionListeners(controller);
 		controller = new CalculatorController(model, view);
+		view.setActionListeners(controller);
 	}
 }
