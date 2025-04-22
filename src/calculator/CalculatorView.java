@@ -121,6 +121,10 @@ public class CalculatorView implements ActionListener {
 		clearRecall.setBackground(orange);
 		clearRecall.setForeground(numFont);
 		buttons.add(clearRecall);
+		JButton clearAll = new JButton("CA");
+		clearAll.setBackground(orange);
+		clearAll.setForeground(numFont);
+		buttons.add(clearAll);
 		
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		panel.setLayout(new GridLayout(6, 4, 5, 5));
@@ -150,6 +154,7 @@ public class CalculatorView implements ActionListener {
 		panel.add(memSubtraction);
 		panel.add(memRecall);
 		panel.add(clearRecall);
+		panel.add(clearAll);
 		
 		label = new JLabel("0", SwingConstants.RIGHT);
 		label.setFont(new Font("Arial", Font.BOLD, 24));
@@ -170,7 +175,7 @@ public class CalculatorView implements ActionListener {
 	public void setActionListeners(ActionListener controller) {
 		for (JButton b : buttons) {
 			b.addActionListener(controller);
-			b.setFont(new Font("Arial", Font.BOLD, 18));
+			b.setFont(new Font("Arial", Font.BOLD, 12));
 		}
 	}
 }

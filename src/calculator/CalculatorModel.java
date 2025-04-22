@@ -12,6 +12,7 @@ public class CalculatorModel {
 	String operation;
 	Boolean opFlag;
 	Boolean decFlag;
+	Boolean ansFlag;
 	
 	public CalculatorModel() {
 		this.first = 0.0;
@@ -20,7 +21,7 @@ public class CalculatorModel {
 		this.operation = "";
 		this.opFlag = false;
 		this.decFlag = false;
-		
+		this.ansFlag = false;
 	}
 	
 	public double parser() {
@@ -76,11 +77,62 @@ public class CalculatorModel {
 	public void setMemory(double memNumber) {
 		this.memoryNumber = memNumber;
 	}
-	public double getMemory() {
+	public double getMemoryNum() {
 		return this.memoryNumber;
 	}
 	public void clearMemory() {
 		this.memoryNumber = 0.0;
 	}
+	
+	public double getFirst() {
+		return this.first;
+	}
+	public void setFirst(double num) {
+		this.first = num;
+	}
+	
+	public double getSecond() {
+		return this.second;
+	}
+	public void setSecond(double num) {
+		this.second = num;
+	}
+	
+	public boolean getOpFlag () {
+		return this.opFlag;
+	}
+	public void setOpFlag(boolean value) {
+		this.opFlag = value;
+	}
+	
+	public boolean getDecFlag () {
+		return this.decFlag;
+	}
+	public void setDecFlag(boolean value) {
+		this.decFlag = value;
+	}
+	
+	public boolean getAnsFlag () {
+		return this.ansFlag;
+	}
+	public void setAnsFlag(boolean value) {
+		this.ansFlag = value;
+	}
+	
+	public void setOperation(String op) {
+		this.operation = op;
+	}
+	public String getOperation() {
+		return this.operation;
+	}
 
+	public void reset() {
+		this.memoryNumber = 0.0;
+		this.first = 0.0;
+		this.second = 0.0;
+		this.operation = "";
+		this.opFlag = false;
+		this.decFlag = false;
+		this.ansFlag = false;
+	}
 }

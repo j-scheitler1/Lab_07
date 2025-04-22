@@ -35,45 +35,69 @@ public class CalculatorController implements ActionListener {
 		else if (command.equals("^2") || command.equals("√")) {
 			
 		}
-		else if (command.equals("M+") || command.equals("M-") || command.equals("M") || command.equals("CM")) { 
+		else if (command.equals("M+") || command.equals("M-") || command.equals("CM")) { 
 			
-		} 
+		}
+		else if (command.equals("M")) {
+			model.setAnsFlag(true);
+			displayMemory();
+		}
 		else if (command.equals(".")) {
 			if (model.decFlag == true) { return; } // TODO - THROW ERROR
 			model.decFlag = true;
 			appendCommand(command);
+		}
+		else if (command.equals("CA")) {
+			clearCalculator();
 		}
 		else { 
 			appendCommand(command);
 		}
 	}
 	
-	// TODO - Add edge case checks for double
-	
-	// set the operation, first number
+	// set the operation, first number, and clear display
 	public void operationSelected(String command) {
 		if (model.opFlag == true) { return; } // TODO - THROW ERROR
-		model.operation = command;
-		model.first = Double.parseDouble(current.toString());
-		model.opFlag = true;
-		current.setLength(0);
-		view.label.setText(current.toString());
+		model.setOperation(command);
+		model.setFirst(Double.parseDouble(current.toString()));
+		model.setOpFlag(true);
+		clearScreen();
+		displayCurrent();
 	}
 	public void equalSelected() {
-		
-		model.second = Double.parseDouble(current.toString());
-		
-		current.setLength(0);
+		model.setSecond(Double.parseDouble(current.toString()));
+		clearScreen();
 		
 		double ans = model.parser();
 		model.setMemory(ans);
+		model.ansFlag = true;
 		
-		current.append(Double.toString(ans));
-		view.label.setText(current.toString());
+		appendCommand(Double.toString(ans));
 	}
 	public void appendCommand(String command) {
+		System.out.println(model.getAnsFlag());
+		if (model.getAnsFlag() == true) {
+			clearScreen();
+			model.setAnsFlag(false);
+		}
 		current.append(command);
+		displayCurrent();
+	}
+	public void displayMemory() {
+		clearScreen();
+		appendCommand(String.valueOf(model.getMemoryNum()));
+	}
+	public void clearCalculator() {
+		model.reset();
+		clearScreen();
+		displayCurrent();
+	}
+	public void clearScreen() {
+		current.setLength(0);
+	}
+	public void displayCurrent() {
 		view.label.setText(current.toString());
 	}
+	
 
 }
