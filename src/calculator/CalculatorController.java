@@ -33,13 +33,12 @@ public class CalculatorController implements ActionListener {
 			operationSelected(command);	
 		} 
 		else if (command.equals("^2") || command.equals("√")) {
-			
+			singleOperationSelected(command);
 		}
 		else if (command.equals("M+") || command.equals("M-") || command.equals("CM")) { 
 			
 		}
 		else if (command.equals("M")) {
-			model.setAnsFlag(true);
 			displayMemory();
 		}
 		else if (command.equals(".")) {
@@ -64,20 +63,35 @@ public class CalculatorController implements ActionListener {
 		clearScreen();
 		displayCurrent();
 	}
+	public void singleOperationSelected(String command) {
+		model.setOperation(command);
+		model.setFirst(Double.parseDouble(current.toString()));
+		model.setOpFlag(false);
+		clearScreen();
+		
+		double ans = model.parser();
+		model.setMemory(ans);
+		model.setFirst(ans);
+		appendCommand(Double.toString(ans));
+		
+		model.setAnsFlag(true);
+	}
 	public void equalSelected() {
 		model.setSecond(Double.parseDouble(current.toString()));
 		clearScreen();
 		
 		double ans = model.parser();
 		model.setMemory(ans);
-		model.ansFlag = true;
-		
+		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
+		
+		model.ansFlag = true;
 	}
 	public void appendCommand(String command) {
 		System.out.println(model.getAnsFlag());
 		if (model.getAnsFlag() == true) {
 			clearScreen();
+			displayCurrent();
 			model.setAnsFlag(false);
 		}
 		current.append(command);
@@ -86,6 +100,7 @@ public class CalculatorController implements ActionListener {
 	public void displayMemory() {
 		clearScreen();
 		appendCommand(String.valueOf(model.getMemoryNum()));
+		model.setAnsFlag(true);
 	}
 	public void clearCalculator() {
 		model.reset();

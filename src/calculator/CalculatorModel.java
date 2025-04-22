@@ -39,6 +39,11 @@ public class CalculatorModel {
 				return multiplication(first, second);
 			case "/":
 				return division(first, second);
+			case "^2":
+				System.out.print("TEST: " + square(first));
+				return square(first);
+			case "√":
+				return squareRoot(first);
 		}
 		
 		return -1;
