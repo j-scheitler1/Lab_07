@@ -116,25 +116,25 @@ public class testModel {
 	public void testMemory() {
 		
 		model.setMemory(9.0);
-		assertEquals( 9.0, model.getMemory(), DELTA);
+		assertEquals( 9.0, model.getMemoryNum(), DELTA);
 		
 		model.clearMemory();
-		assertEquals( 0.0, model.getMemory(), DELTA);
+		assertEquals( 0.0, model.getMemoryNum(), DELTA);
 		
 		model.setMemory(-9.0);
-		assertEquals(-9.0, model.getMemory(), DELTA);
+		assertEquals(-9.0, model.getMemoryNum(), DELTA);
 		
 		model.setMemory(19.0);
-		assertEquals( 19.0, model.getMemory(), DELTA);
+		assertEquals( 19.0, model.getMemoryNum(), DELTA);
 
 		model.clearMemory();
-		assertEquals( 0.0, model.getMemory(), DELTA);
+		assertEquals( 0.0, model.getMemoryNum(), DELTA);
 		
 		model.setMemory(0.0);
-		assertEquals(0.0, model.getMemory(), DELTA);
+		assertEquals(0.0, model.getMemoryNum(), DELTA);
 		
 		model.setMemory(19.0);
-		assertEquals( 19.0, model.getMemory(), DELTA);
+		assertEquals( 19.0, model.getMemoryNum(), DELTA);
 	
 
 	}
