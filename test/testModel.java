@@ -20,6 +20,7 @@ public class testModel {
 		model = new CalculatorModel();
 	}
 
+
 	@Test
 	public void testAddition () {
 		
@@ -139,4 +140,76 @@ public class testModel {
 
 	}
 
+	@Test
+	public void testGetFirst() {
+		assertEquals( 0.0, model.getFirst(), DELTA);
+	}
+	
+	@Test
+	public void testSetFirst() {
+
+		model.setFirst(1.0);
+		assertEquals(1.0, model.getFirst(), DELTA);
+		
+		model.setFirst(-1.0);
+		assertEquals(-1.0, model.getFirst(), DELTA);
+	}
+	
+	@Test
+	public void testGetSecond() {
+		assertEquals( 0.0, model.getSecond(), DELTA);
+	}
+	
+	@Test
+	public void testSetSecond() {
+		
+		model.setSecond(1.0);
+		assertEquals(1.0, model.getSecond(), DELTA);
+		
+		model.setSecond(-1.0);
+		assertEquals(-1.0, model.getSecond(), DELTA);
+	}
+	
+	@Test
+	public void testGetOpFlag () {
+		assertEquals( false, model.getOpFlag());
+	}
+
+	@Test
+	public void testSetOpFlag() {
+		model.setOpFlag(true);
+		assertEquals(true, model.getOpFlag());
+	}
+	
+	@Test
+	public void testGetDecFlag () {
+		assertEquals( false, model.getDecFlag());
+	}
+	
+	@Test
+	public void testSetDecFlag() {
+		model.setDecFlag(true);
+		assertEquals(true, model.getDecFlag());
+	}
+	
+	@Test
+	public void testGetAnsFlag () {
+		assertEquals( false, model.getAnsFlag());;
+	}
+	
+	@Test
+	public void testSetAnsFlag() {
+		model.setAnsFlag(true);
+		assertEquals(true, model.getAnsFlag());
+	}
+	
+	@Test
+	public void testSetOperation() {
+		model.setOperation("+");
+		assertEquals("+", model.getOperation());
+	}
+	@Test
+	public void testGetOperation() {
+		assertEquals("", model.getOperation());
+	}
 }
