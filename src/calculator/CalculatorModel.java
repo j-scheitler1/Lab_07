@@ -1,14 +1,14 @@
 package calculator;
 
-//Authors: Ethan Meyer & Josh Scheitler
+//Authors: Ethan Mayer & Josh Scheitler
 
 //TODO - Implement Calculator Logic and state management
 
-public class calculatorModel {
+public class CalculatorModel {
 	
 	double memoryNumber;
 	
-	public calculatorModel() {
+	public CalculatorModel() {
 		this.memoryNumber = 0.0;
 	}
 	
@@ -17,22 +17,22 @@ public class calculatorModel {
 		return sum;
 	}
 	
-	public double subtraction (double minuend, double subtrahend) {
+	public double subtraction(double minuend, double subtrahend) {
 		double difference = minuend - subtrahend;
 		return difference;
 	}
 	
-	public double multiplication (double multiplicand , double multiplier) {
+	public double multiplication(double multiplicand , double multiplier) {
 		double product = multiplicand * multiplier;
 		return product;
 	}
 	
-	public double division (double dividend, double divisor) {
+	public double division(double dividend, double divisor) {
 		double quotient = dividend / divisor;
 		return quotient;
 	}
 	
-	public double squareRoot (double radicand) {
+	public double squareRoot(double radicand) {
 		double root = Math.sqrt(radicand);
 		return root;
 	}
@@ -47,6 +47,9 @@ public class calculatorModel {
 	}
 	public double getMemory() {
 		return this.memoryNumber;
+	}
+	public void clearMemory() {
+		this.memoryNumber = 0.0;
 	}
 
 }
