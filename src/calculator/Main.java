@@ -2,6 +2,8 @@ package calculator;
 
 import java.awt.event.ActionListener;
 
+//Authors: Ethan Mayer, Josh Scheitler
+
 public class Main {
 	
 	static CalculatorModel model;

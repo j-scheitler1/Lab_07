@@ -1,5 +1,5 @@
 
-// Authors: Ethan Meyer & Josh Scheitler
+// Authors: Ethan Mayer & Josh Scheitler
 
 public class testGUI {
 

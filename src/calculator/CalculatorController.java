@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
-// Authors: Ethan Meyer & Josh Scheitler
+// Authors: Ethan Mayer & Josh Scheitler
 
 // TODO - Implement Listening for Button Clicks and telling the model what todo
 

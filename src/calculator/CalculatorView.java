@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-//Authors: Ethan Meyer & Josh Scheitler
+//Authors: Ethan Mayer & Josh Scheitler
 
 // TODO - Use JFrame to implement calculator GUI
 
