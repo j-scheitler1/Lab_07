@@ -29,14 +29,16 @@ public class CalculatorController implements ActionListener {
 			equalSelected();
 		}
 		else if (command.equals("+") || command.equals("-") || command.equals("x") || command.equals("/")) {
-			if (model.opFlag == true) { return; } // TODO - THROW EXCEPTION
 			operationSelected(command);	
 		} 
 		else if (command.equals("^2") || command.equals("√")) {
 			singleOperationSelected(command);
 		}
-		else if (command.equals("M+") || command.equals("M-") || command.equals("CM")) { 
-			
+		else if (command.equals("M+") || command.equals("M-")) { 
+			operationSelected(command);
+		}
+		else if (command.equals("CM")) {
+			clearMemory();
 		}
 		else if (command.equals("M")) {
 			displayMemory();
@@ -56,9 +58,14 @@ public class CalculatorController implements ActionListener {
 	
 	// set the operation, first number, and clear display
 	public void operationSelected(String command) {
-		if (model.opFlag == true) { return; } // TODO - THROW ERROR
+		System.out.print("Op Flag: " + model.getOpFlag());
+		if (model.opFlag == true) { return; }// TODO - THROW ERROR
+		if (command.equals("M+") || command.equals("M-")) {
+			model.setFirst(model.getMemoryNum());
+		} else {
+			model.setFirst(Double.parseDouble(current.toString()));
+		}
 		model.setOperation(command);
-		model.setFirst(Double.parseDouble(current.toString()));
 		model.setOpFlag(true);
 		clearScreen();
 		displayCurrent();
@@ -112,6 +119,9 @@ public class CalculatorController implements ActionListener {
 	}
 	public void displayCurrent() {
 		view.label.setText(current.toString());
+	}
+	public void clearMemory() {
+		model.clearMemory();
 	}
 	
 
