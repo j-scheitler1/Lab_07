@@ -14,6 +14,8 @@ public class testModel {
 	CalculatorModel model;
 
 	private static final double DELTA = 1e-5;
+	private static final double MAXDOUBLE = Double.MAX_VALUE;
+	private static final double ZERO = 0.0;
 	
 	@Before
 	public void initialize() {
@@ -211,5 +213,26 @@ public class testModel {
 	@Test
 	public void testGetOperation() {
 		assertEquals("", model.getOperation());
+	}
+	@Test
+	public void testSetKeepFlag() {
+		model.setKeepFlag(true);
+		assertEquals(true, model.getKeepFlag());
+	}
+	@Test
+	public void testGetKeepFlag() {
+		assertEquals(false, model.getKeepFlag());
+	}
+	@Test
+	public void testReset() {
+		model.reset();
+		
+		assertEquals(MAXDOUBLE, model.getMemoryNum(), DELTA);
+		assertEquals(ZERO, model.getFirst(), DELTA);
+		assertEquals(ZERO, model.getSecond(), DELTA);
+		assertEquals("", model.getOperation());
+		assertEquals(false, model.getOpFlag());
+		assertEquals(false, model.getDecFlag());
+		assertEquals(false, model.getAnsFlag());
 	}
 }
