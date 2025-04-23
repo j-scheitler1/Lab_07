@@ -19,6 +19,9 @@ public class CalculatorController implements ActionListener {
 		this.model = model;
 		this.view = view;
 	}
+	
+	// TODO - REFACTOR THIS TO NOT BE THE WORST CODE EVER
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -56,24 +59,23 @@ public class CalculatorController implements ActionListener {
 		}
 	}
 	
-	// set the operation, first number, and clear display
+	///////////////////////////////////////////////////
+	
 	public void operationSelected(String command) {
-		System.out.println("Comand: " + command);
-		System.out.println("Op Flag: " + model.getOpFlag());
-		if (model.opFlag == true) { return; }// TODO - THROW ERROR
-		if (command.equals("M+") || command.equals("M-")) {
-			System.out.print("WE IN HER");
-			model.setFirst(model.getMemoryNum());
-			model.setOpFlag(true);
-			clearScreen();
-			displayCurrent();
-		} else {
-			model.setFirst(Double.parseDouble(current.toString()));
-			model.setOperation(command);
-			model.setOpFlag(true);
-			clearScreen();
-			displayCurrent();
-		}
+		if (model.opFlag || !model.ansFlag) { return; }
+		
+		model.setFirst(Double.parseDouble(current.toString()));
+		model.setOperation(command);
+		model.setOpFlag(true);
+		clearAndDisplay();
+	}
+	public void memoryOperationSelected(String command) {
+		if (model.opFlag || !model.ansFlag) { return; }
+		
+		model.setFirst(Double.parseDouble(current.toString()));
+		model.setOperation(command);
+		model.setOpFlag(true);
+		clearAndDisplay();
 	}
 	public void singleOperationSelected(String command) {
 		model.setOperation(command);
@@ -88,6 +90,7 @@ public class CalculatorController implements ActionListener {
 		model.setOpFlag(false);
 		model.setAnsFlag(true);
 	}
+	
 	public void equalSelected() {
 		model.setSecond(Double.parseDouble(current.toString()));
 		clearScreen();
@@ -101,10 +104,8 @@ public class CalculatorController implements ActionListener {
 		model.setOpFlag(false);
 	}
 	public void appendCommand(String command) {
-		System.out.println(model.getAnsFlag());
 		if (model.getAnsFlag() == true) {
-			clearScreen();
-			displayCurrent();
+			clearAndDisplay();
 			model.setAnsFlag(false);
 		}
 		current.append(command);
@@ -128,6 +129,10 @@ public class CalculatorController implements ActionListener {
 	}
 	public void clearMemory() {
 		model.clearMemory();
+	}
+	public void clearAndDisplay() {
+		current.setLength(0);
+		view.label.setText(current.toString());
 	}
 	
 
