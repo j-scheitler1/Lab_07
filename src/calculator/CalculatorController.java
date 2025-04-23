@@ -68,10 +68,7 @@ public class CalculatorController implements ActionListener {
 		model.setFirst(Double.parseDouble(current.toString()));
 		model.setOperation(command);
 		model.setOpFlag(true);
-		clearAndDisplay();
-		appendCommand(command);
-		model.setdisplayOp(true);
-		
+		model.setKeepFlag(true);
 	}
 	public void memoryOperationSelected(String command) {
 		if (model.opFlag) { return; }
@@ -124,9 +121,9 @@ public class CalculatorController implements ActionListener {
 			clearAndDisplay();
 			model.setAnsFlag(false);
 		}
-		if (model.getdisplayOp() == true) {
+		if (model.getKeepFlag()) {
 			clearAndDisplay();
-			model.setdisplayOp(false);
+			model.setKeepFlag(false);
 		}
 		current.append(command);
 		displayCurrent();

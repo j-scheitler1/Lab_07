@@ -13,7 +13,7 @@ public class CalculatorModel {
 	Boolean opFlag;
 	Boolean decFlag;
 	Boolean ansFlag;
-	Boolean displayOp;
+	Boolean keepFlag;
 	Boolean errorFlag;
 	
 	public CalculatorModel() {
@@ -24,8 +24,8 @@ public class CalculatorModel {
 		this.opFlag = false;
 		this.decFlag = false;
 		this.ansFlag = false;
-		this.displayOp = false;
 		this.errorFlag = false;
+		this.keepFlag = false;
 	}
 	
 	public double parser() {
@@ -138,18 +138,18 @@ public class CalculatorModel {
 		return this.operation;
 	}
 	
-	public boolean getdisplayOp() {
-		return this.displayOp;
-	}
-	public void setdisplayOp(boolean value) {
-		this.displayOp = value;
-	}
-	
 	public Boolean getErrorFlag() {
 		return this.errorFlag;
 	}
 	public void setErrorFlag(boolean value) {
 		this.errorFlag = value;
+	}
+	
+	public Boolean getKeepFlag() {
+		return this.keepFlag;
+	}
+	public void setKeepFlag(boolean value) {
+		this.keepFlag = value;
 	}
 
 	public void reset() {
