@@ -54,6 +54,9 @@ public class CalculatorController implements ActionListener {
 		else if (command.equals("CA")) {
 			clearCalculator();
 		}
+		else if (command.equals("D")) {
+			deleteCommand();
+		}
 		else { 
 			appendCommand(command);
 		}
@@ -66,11 +69,12 @@ public class CalculatorController implements ActionListener {
 		model.setOperation(command);
 		model.setOpFlag(true);
 		clearAndDisplay();
+		appendCommand(command);
+		model.setdisplayOp(true);
+		
 	}
 	public void memoryOperationSelected(String command) {
 		if (model.opFlag) { return; }
-		
-		// model.setFirst(model.getMemoryNum());
 		model.setOperation(command);
 		model.setOpFlag(true);
 		clearAndDisplay();
@@ -90,10 +94,22 @@ public class CalculatorController implements ActionListener {
 	}
 	
 	public void equalSelected() {
+		
 		model.setSecond(Double.parseDouble(current.toString()));
 		clearScreen();
 		
+		if (model.getOperation().equals("/") && model.getSecond() <= 0) {
+			error("Can't Divide by 0 or Negative");
+			return;
+		}
+		
 		double ans = model.parser();
+		
+		if (model.getOperation().equals("") || ans == -1) {
+			error("No Operation Selected");
+			return;
+		}
+		
 		model.setMemory(ans);
 		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
@@ -108,10 +124,26 @@ public class CalculatorController implements ActionListener {
 			clearAndDisplay();
 			model.setAnsFlag(false);
 		}
+		if (model.getdisplayOp() == true) {
+			clearAndDisplay();
+			model.setdisplayOp(false);
+		}
 		current.append(command);
 		displayCurrent();
 	}
+	public void deleteCommand() {
+		if (current.length() == 0) {
+			error("Nothing To Delete");
+			return;
+		}
+		current.deleteCharAt(current.length()-1);
+		displayCurrent();
+	}
 	public void displayMemory() {
+		if (model.getMemoryNum() == Double.MAX_VALUE) {
+			error("No Memory Number Set");
+			return;
+		}
 		clearScreen();
 		appendCommand(String.valueOf(model.getMemoryNum()));
 		model.setFirst(model.getMemoryNum());
@@ -135,6 +167,11 @@ public class CalculatorController implements ActionListener {
 		current.setLength(0);
 		view.label.setText(current.toString());
 	}
-	
+	public void error(String message) {
+		clearScreen();
+		view.label.setText("Error: " + message);
+		model.reset();
+	}
+
 
 }

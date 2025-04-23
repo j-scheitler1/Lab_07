@@ -125,6 +125,11 @@ public class CalculatorView implements ActionListener {
 		clearAll.setBackground(orange);
 		clearAll.setForeground(numFont);
 		buttons.add(clearAll);
+		JButton delete = new JButton("D");
+		delete.setBackground(orange);
+		delete.setForeground(numFont);
+		buttons.add(delete);
+		
 		
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		panel.setLayout(new GridLayout(6, 4, 5, 5));
@@ -155,6 +160,7 @@ public class CalculatorView implements ActionListener {
 		panel.add(memRecall);
 		panel.add(clearRecall);
 		panel.add(clearAll);
+		panel.add(delete);
 		
 		label = new JLabel("0", SwingConstants.RIGHT);
 		label.setFont(new Font("Arial", Font.BOLD, 24));

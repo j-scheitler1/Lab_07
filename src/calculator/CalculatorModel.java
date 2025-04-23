@@ -13,15 +13,19 @@ public class CalculatorModel {
 	Boolean opFlag;
 	Boolean decFlag;
 	Boolean ansFlag;
+	Boolean displayOp;
+	Boolean errorFlag;
 	
 	public CalculatorModel() {
 		this.first = 0.0;
 		this.second = 0.0;
-		this.memoryNumber = 0.0;
+		this.memoryNumber = Double.MAX_VALUE;
 		this.operation = "";
 		this.opFlag = false;
 		this.decFlag = false;
 		this.ansFlag = false;
+		this.displayOp = false;
+		this.errorFlag = false;
 	}
 	
 	public double parser() {
@@ -40,7 +44,6 @@ public class CalculatorModel {
 			case "/":
 				return division(first, second);
 			case "^2":
-				System.out.print("TEST: " + square(first));
 				return square(first);
 			case "√":
 				return squareRoot(first);
@@ -134,9 +137,23 @@ public class CalculatorModel {
 	public String getOperation() {
 		return this.operation;
 	}
+	
+	public boolean getdisplayOp() {
+		return this.displayOp;
+	}
+	public void setdisplayOp(boolean value) {
+		this.displayOp = value;
+	}
+	
+	public Boolean getErrorFlag() {
+		return this.errorFlag;
+	}
+	public void setErrorFlag(boolean value) {
+		this.errorFlag = value;
+	}
 
 	public void reset() {
-		this.memoryNumber = 0.0;
+		this.memoryNumber = Double.MAX_VALUE;
 		this.first = 0.0;
 		this.second = 0.0;
 		this.operation = "";
