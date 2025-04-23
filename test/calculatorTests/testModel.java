@@ -1,5 +1,5 @@
-
 // Authors: Ethan Mayer & Josh Scheitler
+package calculatorTests;
 
 
 import static org.junit.Assert.assertEquals;
