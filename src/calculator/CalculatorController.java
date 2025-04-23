@@ -64,6 +64,10 @@ public class CalculatorController implements ActionListener {
 	
 	public void operationSelected(String command) {
 		if (model.opFlag) { return; }
+		if (current.length() == 0 || current.equals(".")) {
+			error("Please enter a valid number");
+			return;
+		}
 		
 		model.setFirst(Double.parseDouble(current.toString()));
 		model.setOperation(command);
@@ -77,6 +81,10 @@ public class CalculatorController implements ActionListener {
 		clearAndDisplay();
 	}
 	public void singleOperationSelected(String command) {
+		if (current.length() == 0 || current.equals(".")) {
+			error("Please enter a valid number");
+			return;
+		}
 		model.setOperation(command);
 		model.setFirst(Double.parseDouble(current.toString()));
 		clearScreen();
@@ -100,10 +108,20 @@ public class CalculatorController implements ActionListener {
 			return;
 		}
 		
+		if (current.equals(".")) {
+			error("Please Enter a Valid Number");
+			return;
+		}
+		
 		double ans = model.parser();
 		
 		if (model.getOperation().equals("") || ans == -1) {
 			error("No Operation Selected");
+			return;
+		}
+		
+		if (model.getOperation().equals("√") && model.getFirst() < 0.0) {
+			error("Can't take Square Root of Negative Number");
 			return;
 		}
 		
