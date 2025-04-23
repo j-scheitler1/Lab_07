@@ -76,17 +76,25 @@ public class CalculatorController implements ActionListener {
 	}
 	public void memoryOperationSelected(String command) {
 		if (model.opFlag) { return; }
+		if (model.getMemoryNum() == Double.MAX_VALUE) {
+			error("No Memory Number Set");
+			return;
+		}
 		model.setOperation(command);
 		model.setOpFlag(true);
 		clearAndDisplay();
 	}
 	public void singleOperationSelected(String command) {
-		if (current.length() == 0 || current.equals(".")) {
+		if (current.equals(".")) {
 			error("Please enter a valid number");
 			return;
 		}
+		if (!model.getOperation().equals("M")) {			
+			model.setFirst(Double.parseDouble(current.toString()));
+		}
+		
 		model.setOperation(command);
-		model.setFirst(Double.parseDouble(current.toString()));
+		
 		clearScreen();
 		
 		double ans = model.parser();
@@ -162,7 +170,7 @@ public class CalculatorController implements ActionListener {
 		clearScreen();
 		appendCommand(String.valueOf(model.getMemoryNum()));
 		model.setFirst(model.getMemoryNum());
-		model.setAnsFlag(true);
+		model.setOperation("M");
 	}
 	public void clearCalculator() {
 		model.reset();

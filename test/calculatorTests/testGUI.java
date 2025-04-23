@@ -118,7 +118,7 @@ public class testGUI {
         window.button("/").click();
         window.button("0").click();
         window.button("=").click();
-        window.label("display").requireText("Error: Can't Divide by 0");
+        window.label("display").requireText("Error: Can't Divide by 0 or Negative");
     }
 
     // --------------------------------------
@@ -137,7 +137,7 @@ public class testGUI {
         window.button("3").click();
         window.button("2").click();
         window.button("M+").click();
-        window.label("display").requireText("Error: Please enter a valid number");
+        window.label("display").requireText("Error: No Memory Number Set");
     }
 
     @Test
@@ -157,8 +157,8 @@ public class testGUI {
     @Test
     public void testSqrtOfNegative() {
         window.button("9").click();
-        window.button("M+").click();      // store 9 in memory
-        window.button("CA").click();
+        window.button("+").click();      // store 9 in memory
+        window.button("0").click();
         window.button("M").click();       // recall 9
         window.button("-").click();
         window.button("1").click();
