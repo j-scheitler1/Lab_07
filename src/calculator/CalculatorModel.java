@@ -44,6 +44,10 @@ public class CalculatorModel {
 				return square(first);
 			case "√":
 				return squareRoot(first);
+			case "M+":
+				return addition(memoryNumber, second);
+			case "M-":
+				return subtraction(memoryNumber, second);
 		}
 		
 		return -1;

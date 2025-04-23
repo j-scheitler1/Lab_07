@@ -59,10 +59,8 @@ public class CalculatorController implements ActionListener {
 		}
 	}
 	
-	///////////////////////////////////////////////////
-	
 	public void operationSelected(String command) {
-		if (model.opFlag || !model.ansFlag) { return; }
+		if (model.opFlag) { return; }
 		
 		model.setFirst(Double.parseDouble(current.toString()));
 		model.setOperation(command);
@@ -70,9 +68,9 @@ public class CalculatorController implements ActionListener {
 		clearAndDisplay();
 	}
 	public void memoryOperationSelected(String command) {
-		if (model.opFlag || !model.ansFlag) { return; }
+		if (model.opFlag) { return; }
 		
-		model.setFirst(Double.parseDouble(current.toString()));
+		// model.setFirst(model.getMemoryNum());
 		model.setOperation(command);
 		model.setOpFlag(true);
 		clearAndDisplay();
@@ -100,6 +98,8 @@ public class CalculatorController implements ActionListener {
 		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
 		
+		
+		model.setOperation("");
 		model.setAnsFlag(true);
 		model.setOpFlag(false);
 	}
@@ -114,6 +114,7 @@ public class CalculatorController implements ActionListener {
 	public void displayMemory() {
 		clearScreen();
 		appendCommand(String.valueOf(model.getMemoryNum()));
+		model.setFirst(model.getMemoryNum());
 		model.setAnsFlag(true);
 	}
 	public void clearCalculator() {
