@@ -9,15 +9,12 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.junit.*;
 
-import javax.swing.*;
-
 public class testGUI {
 
     private FrameFixture window;
 
     @BeforeClass
     public static void setUpOnce() {
-        // Detect Swing threading violations
         FailOnThreadViolationRepaintManager.install();
     }
 
@@ -25,14 +22,9 @@ public class testGUI {
     public void setUp() {
         CalculatorModel model = new CalculatorModel();
 
-        CalculatorView view = GuiActionRunner.execute(() -> {
-            CalculatorView v = new CalculatorView();
-            return v;
-        });
-
+        CalculatorView view = GuiActionRunner.execute(() -> new CalculatorView());
         CalculatorController controller = new CalculatorController(model, view);
 
-        // Run this inside EDT
         GuiActionRunner.execute(() -> view.setActionListeners(controller));
 
         window = new FrameFixture(view.getFrame());
@@ -46,6 +38,10 @@ public class testGUI {
         }
     }
 
+    // --------------------------------------
+    // Test Requirement 1: Functional Correctness
+    // --------------------------------------
+
     @Test
     public void testAddition() {
         window.button("1").click();
@@ -53,5 +49,122 @@ public class testGUI {
         window.button("2").click();
         window.button("=").click();
         window.label("display").requireText("3.0");
+    }
+
+    @Test
+    public void testSquareRoot() {
+        window.button("9").click();
+        window.button("√").click();
+        window.label("display").requireText("3.0");
+    }
+
+    @Test
+    public void testSquare() {
+        window.button("8").click();
+        window.button("^2").click();
+        window.label("display").requireText("64.0");
+    }
+
+    @Test
+    public void testMemoryAddRecall() {
+        window.button("5").click();
+        window.button("+").click();
+        window.button("5").click();
+        window.button("=").click();
+        window.button("M+").click();
+        window.button("M").click();
+        window.label("display").requireText("10.0");
+    }
+
+    @Test
+    public void testNegativeResult() {
+        window.button("1").click();
+        window.button("0").click();
+        window.button("-").click();
+        window.button("1").click();
+        window.button("2").click();
+        window.button("=").click();
+        window.label("display").requireText("-2.0");
+    }
+
+    // --------------------------------------
+    // Test Requirement 2: Only Results Displayed
+    // --------------------------------------
+
+    @Test
+    public void testOnlyOperandsAndResults1() {
+        window.button("1").click();
+        window.button("2").click();
+        window.button("+").click();
+        window.button("3").click();
+        window.button("4").click();
+        window.button("=").click();
+        window.label("display").requireText("46.0");
+    }
+
+    @Test
+    public void testOnlyOperandsAndResults2() {
+        window.button("9").click();
+        window.button("x").click();
+        window.button("5").click();
+        window.button("=").click();
+        window.label("display").requireText("45.0");
+    }
+
+    @Test
+    public void testDivisionByZeroError() {
+        window.button("1").click();
+        window.button("0").click();
+        window.button("/").click();
+        window.button("0").click();
+        window.button("=").click();
+        window.label("display").requireText("Error: Can't Divide by 0");
+    }
+
+    // --------------------------------------
+    // Test Requirement 4: Error Handling
+    // --------------------------------------
+
+    @Test
+    public void testDotOnlyInputError() {
+        window.button(".").click();
+        window.button("=").click();
+        window.label("display").requireText("Error: Please Enter a Valid Number");
+    }
+
+    @Test
+    public void testMemoryAddWithoutCalculation() {
+        window.button("3").click();
+        window.button("2").click();
+        window.button("M+").click();
+        window.label("display").requireText("Error: Please enter a valid number");
+    }
+
+    @Test
+    public void testDeleteOnEmptyInput() {
+        window.button("CA").click(); // clear all first
+        window.button("D").click();
+        window.label("display").requireText("Error: Nothing To Delete");
+    }
+
+    @Test
+    public void testMemoryRecallWhenEmpty() {
+        window.button("CA").click();
+        window.button("M").click();
+        window.label("display").requireText("Error: No Memory Number Set");
+    }
+
+    @Test
+    public void testSqrtOfNegative() {
+        window.button("9").click();
+        window.button("M+").click();      // store 9 in memory
+        window.button("CA").click();
+        window.button("M").click();       // recall 9
+        window.button("-").click();
+        window.button("1").click();
+        window.button("0").click();
+        window.button("=").click();      // now display is -1
+        window.button("√").click();      // should error
+        window.label("display").requireText("Error: Can't take Square Root of Negative");
     }
 }
