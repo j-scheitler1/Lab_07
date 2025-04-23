@@ -38,7 +38,7 @@ public class CalculatorController implements ActionListener {
 			singleOperationSelected(command);
 		}
 		else if (command.equals("M+") || command.equals("M-")) {
-			operationSelected(command);
+			memoryOperationSelected(command);
 		}
 		else if (command.equals("CM")) {
 			clearMemory();
@@ -64,9 +64,12 @@ public class CalculatorController implements ActionListener {
 	
 	public void operationSelected(String command) {
 		if (model.opFlag) { return; }
-		if (current.length() == 0 || current.equals(".")) {
+		if (current.equals(".")) {
 			error("Please enter a valid number");
 			return;
+		}
+		if (!model.getOperation().equals("M")) {			
+			model.setFirst(Double.parseDouble(current.toString()));
 		}
 		
 		model.setFirst(Double.parseDouble(current.toString()));
@@ -75,6 +78,7 @@ public class CalculatorController implements ActionListener {
 		model.setKeepFlag(true);
 	}
 	public void memoryOperationSelected(String command) {
+		System.out.print(model.getAnsFlag());
 		if (model.opFlag) { return; }
 		if (model.getMemoryNum() == Double.MAX_VALUE) {
 			error("No Memory Number Set");
@@ -89,17 +93,20 @@ public class CalculatorController implements ActionListener {
 			error("Please enter a valid number");
 			return;
 		}
-		if (!model.getOperation().equals("M")) {			
-			model.setFirst(Double.parseDouble(current.toString()));
-		}
 		
 		model.setOperation(command);
+		model.setFirst(Double.parseDouble(current.toString()));
 		
-		clearScreen();
+		if (model.getOperation().equals("√") && model.getFirst() < 0.0) {
+			error("Can't take Square Root of Negative Number");
+			return;
+		}
 		
 		double ans = model.parser();
+		clearScreen();
 		model.setMemory(ans);
 		model.setFirst(ans);
+		System.out.print(ans);
 		appendCommand(Double.toString(ans));
 		
 		model.setOpFlag(false);
@@ -108,30 +115,21 @@ public class CalculatorController implements ActionListener {
 	
 	public void equalSelected() {
 		
-		model.setSecond(Double.parseDouble(current.toString()));
-		clearScreen();
 		
+		System.out.println(current.toString());
+		if (current.toString().equals(".")) {
+			error("Please Enter a Valid Number");
+			return;
+		}
+		model.setSecond(Double.parseDouble(current.toString()));
 		if (model.getOperation().equals("/") && model.getSecond() <= 0) {
 			error("Can't Divide by 0 or Negative");
 			return;
 		}
-		
-		if (current.equals(".")) {
-			error("Please Enter a Valid Number");
-			return;
-		}
-		
+
+		clearScreen();
 		double ans = model.parser();
 		
-		if (model.getOperation().equals("") || ans == -1) {
-			error("No Operation Selected");
-			return;
-		}
-		
-		if (model.getOperation().equals("√") && model.getFirst() < 0.0) {
-			error("Can't take Square Root of Negative Number");
-			return;
-		}
 		
 		model.setMemory(ans);
 		model.setFirst(ans);

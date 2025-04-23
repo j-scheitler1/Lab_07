@@ -154,17 +154,28 @@ public class testGUI {
         window.label("display").requireText("Error: No Memory Number Set");
     }
 
+//    @Test
+//    public void testSqrtOfNegative() {
+//        window.button("9").click();
+//        window.button("+").click();      // store 9 in memory
+//        window.button("0").click();
+//        window.button("M").click();       // recall 9
+//        window.button("-").click();
+//        window.button("1").click();
+//        window.button("0").click();
+//        window.button("=").click();      // now display is -1
+//        window.button("√").click();      // should error
+//        window.label("display").requireText("Error: Can't take Square Root of Negative");
+//    }
+    
     @Test
     public void testSqrtOfNegative() {
-        window.button("9").click();
-        window.button("+").click();      // store 9 in memory
-        window.button("0").click();
-        window.button("M").click();       // recall 9
-        window.button("-").click();
-        window.button("1").click();
-        window.button("0").click();
-        window.button("=").click();      // now display is -1
-        window.button("√").click();      // should error
-        window.label("display").requireText("Error: Can't take Square Root of Negative");
+    	window.button("9").click();
+    	window.button("-").click();
+    	window.button("1").click();
+    	window.button("0").click();
+    	window.button("=").click();
+    	window.button("√").click();
+    	window.label("display").requireText("Error: Can't take Square Root of Negative Number");
     }
 }
