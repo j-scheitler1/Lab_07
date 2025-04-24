@@ -38,10 +38,6 @@ public class testGUI {
         }
     }
 
-    // --------------------------------------
-    // Test Requirement 1: Functional Correctness
-    // --------------------------------------
-
     @Test
     public void testAddition() {
         window.button("1").click();
@@ -87,10 +83,6 @@ public class testGUI {
         window.label("display").requireText("-2.0");
     }
 
-    // --------------------------------------
-    // Test Requirement 2: Only Results Displayed
-    // --------------------------------------
-
     @Test
     public void testOnlyOperandsAndResults1() {
         window.button("1").click();
@@ -121,10 +113,6 @@ public class testGUI {
         window.label("display").requireText("Error: Can't Divide by 0 or Negative");
     }
 
-    // --------------------------------------
-    // Test Requirement 4: Error Handling
-    // --------------------------------------
-
     @Test
     public void testDotOnlyInputError() {
         window.button(".").click();
@@ -142,7 +130,7 @@ public class testGUI {
 
     @Test
     public void testDeleteOnEmptyInput() {
-        window.button("CA").click(); // clear all first
+        window.button("CA").click(); 
         window.button("D").click();
         window.label("display").requireText("Error: Nothing To Delete");
     }
@@ -153,20 +141,6 @@ public class testGUI {
         window.button("M").click();
         window.label("display").requireText("Error: No Memory Number Set");
     }
-
-//    @Test
-//    public void testSqrtOfNegative() {
-//        window.button("9").click();
-//        window.button("+").click();      // store 9 in memory
-//        window.button("0").click();
-//        window.button("M").click();       // recall 9
-//        window.button("-").click();
-//        window.button("1").click();
-//        window.button("0").click();
-//        window.button("=").click();      // now display is -1
-//        window.button("√").click();      // should error
-//        window.label("display").requireText("Error: Can't take Square Root of Negative");
-//    }
     
     @Test
     public void testSqrtOfNegative() {

@@ -1,8 +1,10 @@
 package calculator;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 // Authors: Ethan Mayer & Josh Scheitler
@@ -19,13 +21,11 @@ public class CalculatorController implements ActionListener {
 		this.model = model;
 		this.view = view;
 	}
-	
-	// TODO - REFACTOR THIS TO NOT BE THE WORST CODE EVER
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String command = e.getActionCommand(); // TODO - Figure out how to get from GUI
+		String command = e.getActionCommand();
+//		((JButton) e.getSource()).setBackground(Color.blue);
 		System.out.println(command);
 		
 		if (command.equals("=")) {
