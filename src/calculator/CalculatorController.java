@@ -3,20 +3,17 @@ package calculator;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 // Authors: Ethan Mayer & Josh Scheitler
 
-// TODO - Implement Listening for Button Clicks and telling the model what todo
-
 public class CalculatorController implements ActionListener {
-	
-	CalculatorModel model;
-	CalculatorView view;
-	private StringBuilder current = new StringBuilder();
-	
+
+	private final CalculatorModel model;
+	private final CalculatorView view;
+	private final StringBuilder current = new StringBuilder();
+	private JButton lastOperatorButton = null;
+
 	public CalculatorController(CalculatorModel model, CalculatorView view) {
 		this.model = model;
 		this.view = view;
@@ -25,103 +22,131 @@ public class CalculatorController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-//		((JButton) e.getSource()).setBackground(Color.blue);
 		System.out.println(command);
-		
-		if (command.equals("=")) {
-			equalSelected();
-		}
-		else if (command.equals("+") || command.equals("-") || command.equals("x") || command.equals("/")) {
-			operationSelected(command);	
-		} 
-		else if (command.equals("^2") || command.equals("√")) {
-			singleOperationSelected(command);
-		}
-		else if (command.equals("M+") || command.equals("M-")) {
-			memoryOperationSelected(command);
-		}
-		else if (command.equals("CM")) {
-			clearMemory();
-		}
-		else if (command.equals("M")) {
-			displayMemory();
-		}
-		else if (command.equals(".")) {
-			if (model.decFlag == true) { return; } // TODO - THROW ERROR
-			model.decFlag = true;
-			appendCommand(command);
-		}
-		else if (command.equals("CA")) {
-			clearCalculator();
-		}
-		else if (command.equals("D")) {
-			deleteCommand();
-		}
-		else { 
-			appendCommand(command);
+
+		switch (command) {
+			case "=" -> equalSelected();
+			case "+", "-", "x", "/" -> operationSelected(command, (JButton) e.getSource());
+			case "^2", "√" -> singleOperationSelected(command);
+			case "M+" , "M-" -> memoryOperationSelected(command);
+			case "CM" -> clearMemory();
+			case "M" -> displayMemory();
+			case "." -> {
+				if (model.decFlag) return;
+				model.decFlag = true;
+				appendCommand(command);
+			}
+			case "CA" -> clearCalculator();
+			case "D" -> deleteCommand();
+			default -> appendCommand(command);
 		}
 	}
-	
-	public void operationSelected(String command) {
-		if (model.opFlag) { return; }
-		if (current.equals(".")) {
-			error("Please enter a valid number");
+
+	private void operationSelected(String command, JButton sourceButton) {
+		if (model.opFlag) return;
+
+		if (current.toString().equals(".")) {
+			error("Please enter a Valid Number");
 			return;
 		}
-		if (!model.getOperation().equals("M")) {			
+
+		try {
 			model.setFirst(Double.parseDouble(current.toString()));
+		} catch (NumberFormatException ex) {
+			error("Invalid number format");
+			return;
 		}
-		
-		model.setFirst(Double.parseDouble(current.toString()));
+
 		model.setOperation(command);
 		model.setOpFlag(true);
 		model.setKeepFlag(true);
+
+		highlightOperatorButton(sourceButton);
 	}
-	public void memoryOperationSelected(String command) {
-		System.out.print(model.getAnsFlag());
-		if (model.opFlag) { return; }
-		if (model.getMemoryNum() == Double.MAX_VALUE) {
+
+	private void highlightOperatorButton(JButton newButton) {
+		if (lastOperatorButton != null) {
+			lastOperatorButton.setBackground(new Color(80, 80, 80));
+		}
+		newButton.setBackground(Color.ORANGE);
+		lastOperatorButton = newButton;
+	}
+
+	private void memoryOperationSelected(String command) {
+		if (current.toString().equals(".")) {
+			error("Please enter a valid Number");
+			return;
+		}
+		double ans = -56.7;
+		double currentValue = Double.parseDouble(current.toString());
+		double memory = model.getMemoryNum();
+
+		if (memory == Double.MAX_VALUE) {
 			error("No Memory Number Set");
 			return;
 		}
-		model.setOperation(command);
-		model.setOpFlag(true);
-		clearAndDisplay();
-	}
-	public void singleOperationSelected(String command) {
-		if (current.equals(".")) {
-			error("Please enter a valid number");
-			return;
+
+		if (command.equals("M+")) {
+			model.setFirst(currentValue);
+			model.setSecond(memory);
+			model.setOperation("+");
+			ans = model.parser();
+		} else if (command.equals("M-")) {
+			model.setFirst(currentValue);
+			model.setSecond(memory);
+			model.setOperation("-");
+			ans = model.parser();
+		}
+		if (ans != -56.7) {			
+			model.setMemory(ans);
 		}
 		
+		model.setMemory(ans);
+		model.setFirst(ans);
+		clearScreen();
+		appendCommand(Double.toString(ans));
+
+		model.setOperation("");
+		model.setAnsFlag(true);
+		model.setOpFlag(false);
+
+		if (lastOperatorButton != null) {
+			lastOperatorButton.setBackground(new Color(255, 149, 0));
+			lastOperatorButton = null;
+		}
+	}
+
+	private void singleOperationSelected(String command) {
+		if (current.toString().equals(".")) {
+			error("Please enter a Valid Number");
+			return;
+		}
+
 		model.setOperation(command);
 		model.setFirst(Double.parseDouble(current.toString()));
-		
-		if (model.getOperation().equals("√") && model.getFirst() < 0.0) {
+
+		if (command.equals("√") && model.getFirst() < 0) {
 			error("Can't take Square Root of Negative Number");
 			return;
 		}
-		
+
 		double ans = model.parser();
 		clearScreen();
 		model.setMemory(ans);
 		model.setFirst(ans);
-		System.out.print(ans);
 		appendCommand(Double.toString(ans));
-		
 		model.setOpFlag(false);
 		model.setAnsFlag(true);
 	}
-	
-	public void equalSelected() {
-		
-		
-		System.out.println(current.toString());
+
+	private void equalSelected() {
 		if (current.toString().equals(".")) {
 			error("Please Enter a Valid Number");
 			return;
 		}
+
 		model.setSecond(Double.parseDouble(current.toString()));
+
 		if (model.getOperation().equals("/") && model.getSecond() <= 0) {
 			error("Can't Divide by 0 or Negative");
 			return;
@@ -129,19 +154,22 @@ public class CalculatorController implements ActionListener {
 
 		clearScreen();
 		double ans = model.parser();
-		
-		
 		model.setMemory(ans);
 		model.setFirst(ans);
 		appendCommand(Double.toString(ans));
-		
-		
+
 		model.setOperation("");
 		model.setAnsFlag(true);
 		model.setOpFlag(false);
+
+		if (lastOperatorButton != null) {
+			lastOperatorButton.setBackground(new Color(255, 149, 0));
+			lastOperatorButton = null;
+		}
 	}
-	public void appendCommand(String command) {
-		if (model.getAnsFlag() == true) {
+
+	private void appendCommand(String command) {
+		if (model.getAnsFlag()) {
 			clearAndDisplay();
 			model.setAnsFlag(false);
 		}
@@ -152,15 +180,17 @@ public class CalculatorController implements ActionListener {
 		current.append(command);
 		displayCurrent();
 	}
-	public void deleteCommand() {
+
+	private void deleteCommand() {
 		if (current.length() == 0) {
 			error("Nothing To Delete");
 			return;
 		}
-		current.deleteCharAt(current.length()-1);
+		current.deleteCharAt(current.length() - 1);
 		displayCurrent();
 	}
-	public void displayMemory() {
+
+	private void displayMemory() {
 		if (model.getMemoryNum() == Double.MAX_VALUE) {
 			error("No Memory Number Set");
 			return;
@@ -169,30 +199,35 @@ public class CalculatorController implements ActionListener {
 		appendCommand(String.valueOf(model.getMemoryNum()));
 		model.setFirst(model.getMemoryNum());
 		model.setOperation("M");
+		model.setAnsFlag(true);
 	}
-	public void clearCalculator() {
+
+	private void clearCalculator() {
 		model.reset();
 		clearScreen();
 		displayCurrent();
 	}
-	public void clearScreen() {
+
+	private void clearScreen() {
 		current.setLength(0);
 	}
-	public void displayCurrent() {
+
+	private void displayCurrent() {
 		view.label.setText(current.toString());
 	}
-	public void clearMemory() {
+
+	private void clearMemory() {
 		model.clearMemory();
 	}
-	public void clearAndDisplay() {
-		current.setLength(0);
-		view.label.setText(current.toString());
+
+	private void clearAndDisplay() {
+		clearScreen();
+		displayCurrent();
 	}
-	public void error(String message) {
+
+	private void error(String message) {
 		clearScreen();
 		view.label.setText("Error: " + message);
 		model.reset();
 	}
-
-
 }

@@ -1,9 +1,9 @@
 package calculatorTests;
 
 import calculator.CalculatorModel;
+
 import calculator.CalculatorView;
 import calculator.CalculatorController;
-
 import org.assertj.swing.edt.FailOnThreadViolationRepaintManager;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.edt.GuiActionRunner;
@@ -68,8 +68,7 @@ public class testGUI {
         window.button("5").click();
         window.button("=").click();
         window.button("M+").click();
-        window.button("M").click();
-        window.label("display").requireText("10.0");
+        window.label("display").requireText("20.0");
     }
 
     @Test
