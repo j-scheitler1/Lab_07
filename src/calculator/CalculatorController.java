@@ -142,7 +142,7 @@ public class CalculatorController implements ActionListener {
 
         double ans = model.parser();
         clearScreen();
-        model.setMemory(ans);
+        // model.setMemory(ans);
         model.setFirst(ans);
         appendCommand(Double.toString(ans));
         model.setOpFlag(false);
