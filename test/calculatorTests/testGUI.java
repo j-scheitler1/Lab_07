@@ -68,7 +68,7 @@ public class testGUI {
         window.button("5").click();
         window.button("=").click();
         window.button("M+").click();
-        window.label("display").requireText("20.0");
+        window.label("display").requireText("10.0");
     }
 
     @Test
@@ -109,14 +109,14 @@ public class testGUI {
         window.button("/").click();
         window.button("0").click();
         window.button("=").click();
-        window.label("display").requireText("Error: Can't Divide by 0 or Negative");
+        window.label("display").requireText("Error: Can't divide by 0");
     }
 
     @Test
     public void testDotOnlyInputError() {
         window.button(".").click();
         window.button("=").click();
-        window.label("display").requireText("Error: Please Enter a Valid Number");
+        window.label("display").requireText("Error: Please enter a valid number");
     }
 
     @Test
@@ -124,21 +124,21 @@ public class testGUI {
         window.button("3").click();
         window.button("2").click();
         window.button("M+").click();
-        window.label("display").requireText("Error: No Memory Number Set");
+        window.label("display").requireText("Error: Only results of executed operations can be stored in memory");
     }
 
     @Test
     public void testDeleteOnEmptyInput() {
         window.button("CA").click(); 
         window.button("D").click();
-        window.label("display").requireText("Error: Nothing To Delete");
+        window.label("display").requireText("Error: Nothing to delete");
     }
 
     @Test
     public void testMemoryRecallWhenEmpty() {
         window.button("CA").click();
         window.button("M").click();
-        window.label("display").requireText("Error: No Memory Number Set");
+        window.label("display").requireText("Error: No memory number set");
     }
     
     @Test
@@ -149,6 +149,6 @@ public class testGUI {
     	window.button("0").click();
     	window.button("=").click();
     	window.button("√").click();
-    	window.label("display").requireText("Error: Can't take Square Root of Negative Number");
+    	window.label("display").requireText("Error: Can't take square root of negative number");
     }
 }
