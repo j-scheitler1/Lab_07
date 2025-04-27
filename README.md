@@ -11,9 +11,3 @@
 	- assertj-core-3.24.2.jar
 	- assertj-swing-3.17.1.jar
 	- hamcrest-core-1.3.jar
-
--------------------------------------------------------------------------------------------------------------
-FOR TA
-
-Can also run git clone "https://github.com/j-scheitler1/Lab_07.git" and open this project in eclipse. Then
-follow steps 02 - 04 from above.
